@@ -14,6 +14,8 @@ Rails.application.routes.draw do
 
   resources :users, only: %i[new create]
 
+  resources :sessions, only: %i[new create destroy]
+
   namespace :admin do
     root to: 'dashboard#show'
     resources :products, except: %i[edit update show]
