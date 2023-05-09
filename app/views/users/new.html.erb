@@ -3,8 +3,13 @@
 </header>
 <%= form_for :user, url: '/users' do |f| %>
   <div class="form-group">
-    <p class="mb-0">Name</p>
-    <%= f.text_field :name %>
+    <p class="mb-0">First Name</p>
+    <%= f.text_field :first_name %>
+  </div>
+  <br />
+  <div class="form-group">
+    <p class="mb-0">Last Name</p>
+    <%= f.text_field :last_name %>
   </div>
   <br />
   <div class="form-group">
