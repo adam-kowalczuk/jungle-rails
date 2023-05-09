@@ -91,6 +91,10 @@ RSpec.describe User, type: :model do
       @auth_user = User.authenticate_with_credentials(' A@A.com ', '1234')
       expect(@auth_user).to eql(@user)
     end
+    it 'should not authenticate if email and password are incorrect' do
+      @auth_user = User.authenticate_with_credentials('b@b.com ', '1235')
+      expect(@auth_user).to_not eql(@user)
+    end
   end
 end
 
