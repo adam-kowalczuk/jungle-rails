@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/BlockLength
 require 'rails_helper'
 RSpec.describe User, type: :model do
   describe 'Validations' do
@@ -10,7 +11,7 @@ RSpec.describe User, type: :model do
         password_confirmation: '1234'
       )
     end
-    it 'should save is all fields meet validations' do
+    it 'should save if all fields meet validations' do
       expect(@user.save).to be true
     end
     context 'Password Validations' do
@@ -24,7 +25,7 @@ RSpec.describe User, type: :model do
         expect(@user.save).to_not be true
         expect(@user.errors.full_messages).to include('Password confirmation can\'t be blank')
       end
-      it 'should not save when no passwords do not match' do
+      it 'should not save when password and password_confirmation do not match' do
         @user.password_confirmation = '123'
         expect(@user.save).to_not be true
         expect(@user.errors.full_messages).to include('Password confirmation doesn\'t match Password')
@@ -68,4 +69,29 @@ RSpec.describe User, type: :model do
       end
     end
   end
+  describe '.authenticate_with_credentials' do
+    before(:each) do
+      @user = User.create(
+        email: 'a@a.com',
+        first_name: 'ABC',
+        last_name: 'DEF',
+        password: '1234',
+        password_confirmation: '1234'
+      )
+    end
+    it 'should authenticate if @user equals @auth_user' do
+      @auth_user = User.authenticate_with_credentials('a@a.com', '1234')
+      expect(@auth_user).to eql(@user)
+    end
+    it 'should authenticate if email has trailing spacing in email input' do
+      @auth_user = User.authenticate_with_credentials(' a@a.com ', '1234')
+      expect(@auth_user).to eql(@user)
+    end
+    it 'should authenticate if email is capitalized' do
+      @auth_user = User.authenticate_with_credentials(' A@A.com ', '1234')
+      expect(@auth_user).to eql(@user)
+    end
+  end
 end
+
+# rubocop:enable Metrics/BlockLength
