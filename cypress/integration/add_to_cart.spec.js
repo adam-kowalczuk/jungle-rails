@@ -5,7 +5,8 @@ describe("Add to Cart", () => {
     cy.visit("/");
   });
   it("should add an item to the cart", () => {
-    cy.get(":nth-child(1) > div > .button_to > .btn").click({ force: true });
-    cy.get(".end-0 > .nav-link").should("have.length", 1);
+    cy.contains("My Cart (0)").should("be.visible");
+    cy.get(".products article").contains("Add").click({ force: true });
+    cy.contains("My Cart (1)").should("be.visible");
   });
 });
